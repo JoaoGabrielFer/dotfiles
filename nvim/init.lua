@@ -7,7 +7,11 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.opt.shiftwidth = 4
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.clipboard = "unnamedplus"
 
+vim.cmd [[hi @function.builtin.lua guifg=orange]]
+local x = 5
+print(x)
 
 
 require("catppuccin").setup({
