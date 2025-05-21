@@ -10,9 +10,6 @@ vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
 
 vim.cmd [[hi @function.builtin.lua guifg=orange]]
-local x = 5
-print(x)
-
 
 require("catppuccin").setup({
   integrations = {
