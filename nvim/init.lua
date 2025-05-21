@@ -1,4 +1,5 @@
 require("config.lazy")
+require 'nvim-treesitter.install'.compilers = { "gcc" }
 
 
 vim.g.mapleader = " "
@@ -10,10 +11,6 @@ vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
 
 vim.cmd [[hi @function.builtin.lua guifg=orange]]
-<<<<<<< HEAD
-
-=======
->>>>>>> 502e3d71ebf424df66a702cb6bbf744bd54de7c8
 
 require("catppuccin").setup({
   integrations = {
