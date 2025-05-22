@@ -2,7 +2,7 @@ require("config.lazy")
 require 'nvim-treesitter.install'.compilers = { "gcc" }
 
 
-vim.keymap.set("n", "<leader>pv", ":e .<CR>")
+vim.keymap.set("n", "<leader>pv", vim.cmd.Oil)
 vim.keymap.set("n", "<leader>x", ":.lua<CR>")
 vim.keymap.set("v", "<leader>x", ":lua<CR>")
 
