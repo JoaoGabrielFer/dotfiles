@@ -16,7 +16,7 @@ vim.keymap.set("t", "<A-h>", [[<C-\><C-n><C-w>h]])
 vim.keymap.set("t", "<A-j>", [[<C-\><C-n><C-w>j]])
 vim.keymap.set("t", "<A-k>", [[<C-\><C-n><C-w>k]])
 vim.keymap.set("t", "<A-l>", [[<C-\><C-n><C-w>l]])
-vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<A-t>", [[<C-\><C-n>]])
 
 
 
@@ -59,8 +59,34 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
+local job_id = 0
 vim.keymap.set("n", "<leader>t", function()
   vim.cmd.vnew()
   vim.cmd.term()
   vim.api.nvim_win_set_width(0, 80)
+
+  job_id = vim.bo.channel
+end)
+
+vim.keymap.set("n", "<leader>git", function()
+  vim.ui.input({ prompt = "Diretório para rodar git: ", default = vim.fn.getcwd() }, function(dir)
+    if dir == nil or dir == "" then
+      print("Operação cancelada.")
+      return
+    end
+
+    -- Abre um terminal em um novo split vertical
+    vim.cmd("vnew")
+    vim.cmd("terminal")
+    vim.api.nvim_win_set_width(0, 80)
+
+    -- Pega o ID do terminal
+    local term_chan = vim.b.terminal_job_id
+
+    -- Muda para o diretório informado
+    vim.fn.chansend(term_chan, "cd " .. dir .. "\r\n")
+
+    -- Roda o comando git
+    vim.fn.chansend(term_chan, "git add .\r\ngit commit -m .\r\ngit push origin main\r\n")
+  end)
 end)
