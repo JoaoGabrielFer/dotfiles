@@ -1,7 +1,6 @@
 require("config.lazy")
 require 'nvim-treesitter.install'.compilers = { "gcc" }
 
-vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>x", ":.lua<CR>")
 vim.keymap.set("v", "<leader>x", ":lua<CR>")
@@ -30,6 +29,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.cmd [[hi @function.builtin.lua guifg=orange]]
 
 require("catppuccin").setup({
+  transparent_background = false,
   integrations = {
     ts_rainbow = true,
   },
