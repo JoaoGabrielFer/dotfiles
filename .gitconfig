@@ -3,3 +3,9 @@
 [user]
 	email = joaoggabriel07@gmail.com
 	name = JoaoGabrielFer
+[safe]
+	directory = C:\\Users\\João Gabriel\\AppData\\Local\\nvim-data\\lazy\\catppuccin
+	directory = C:\\Users\\João Gabriel\\AppData\\Local\\nvim-data\\lazy\\gruvbox.nvim
+	directory = C:\\Users\\João Gabriel\\AppData\\Local\\nvim-data\\lazy\\lazy.nvim
+	directory = C:\\Users\\João Gabriel\\AppData\\Local\\nvim-data\\lazy\\mini.nvim
+	directory = C:\\Users\\João Gabriel\\AppData\\Local\\nvim-data\\lazy\\nvim-treesitter
