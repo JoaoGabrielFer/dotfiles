@@ -1,9 +1,26 @@
 require("config.lazy")
 require 'nvim-treesitter.install'.compilers = { "gcc" }
 
-
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>x", ":.lua<CR>")
+vim.keymap.set("v", "<leader>x", ":lua<CR>")
+
+vim.keymap.set("n", "<A-h>", "<C-w>h")
+vim.keymap.set("n", "<A-j>", "<C-w>j")
+vim.keymap.set("n", "<A-k>", "<C-w>k")
+vim.keymap.set("n", "<A-l>", "<C-w>l")
+vim.keymap.set("n", "<leader>q", "<C-w>q")
+
+vim.keymap.set("t", "<A-h>", [[<C-\><C-n><C-w>h]])
+vim.keymap.set("t", "<A-j>", [[<C-\><C-n><C-w>j]])
+vim.keymap.set("t", "<A-k>", [[<C-\><C-n><C-w>k]])
+vim.keymap.set("t", "<A-l>", [[<C-\><C-n><C-w>l]])
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+
+
+
+vim.opt.completeopt = { "menuone", "noselect" }
 
 vim.opt.shiftwidth = 4
 vim.opt.number = true
@@ -35,3 +52,15 @@ require("catppuccin").setup({
   },
 })
 vim.cmd.colorscheme("catppuccin") -- or "gruvbox"
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
+  callback = function()
+  end,
+})
+
+vim.keymap.set("n", "<leader>t", function()
+  vim.cmd.vnew()
+  vim.cmd.term()
+  vim.api.nvim_win_set_width(0, 80)
+end)
