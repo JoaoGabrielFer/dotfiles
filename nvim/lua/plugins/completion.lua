@@ -23,7 +23,7 @@ return {
         preset = 'default',
         ["<S-Tab>"] = { 'select_prev', 'fallback_to_mappings' },
         ["<Tab>"] = { 'select_next', 'fallback_to_mappings' },
-        ['<CR>'] = { 'accept' },
+        ['<CR>'] = { 'accept', 'fallback' },
       },
       appearance = {
         nerd_font_variant = 'mono'
