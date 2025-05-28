@@ -1,23 +1,22 @@
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 require("config.lazy")
+require("config.remap")
+require("scripts.floaterminal")
 require 'nvim-treesitter.install'.compilers = { "gcc" }
+require("luasnip.loaders.from_vscode").lazy_load()
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Oil)
-vim.keymap.set("n", "<leader>x", ":.lua<CR>")
-vim.keymap.set("v", "<leader>x", ":lua<CR>")
-
-vim.keymap.set("n", "<A-h>", "<C-w>h")
-vim.keymap.set("n", "<A-j>", "<C-w>j")
-vim.keymap.set("n", "<A-k>", "<C-w>k")
-vim.keymap.set("n", "<A-l>", "<C-w>l")
-vim.keymap.set("n", "<leader>q", "<C-w>q")
-
-vim.keymap.set("t", "<A-h>", [[<C-\><C-n><C-w>h]])
-vim.keymap.set("t", "<A-j>", [[<C-\><C-n><C-w>j]])
-vim.keymap.set("t", "<A-k>", [[<C-\><C-n><C-w>k]])
-vim.keymap.set("t", "<A-l>", [[<C-\><C-n><C-w>l]])
-vim.keymap.set("t", "<A-t>", [[<C-\><C-n>]])
-
-
+vim.o.shell = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
 
 vim.opt.completeopt = { "menuone", "noselect" }
 
@@ -25,6 +24,15 @@ vim.opt.shiftwidth = 4
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
+
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+
+vim.opt.termguicolors = true
+
+vim.opt.scrolloff = 8
+
+vim.opt.updatetime = 50
 
 vim.cmd [[hi @function.builtin.lua guifg=orange]]
 
@@ -59,13 +67,10 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
-local job_id = 0
 vim.keymap.set("n", "<leader>t", function()
   vim.cmd.vnew()
   vim.cmd.term()
   vim.api.nvim_win_set_width(0, 80)
-
-  job_id = vim.bo.channel
 end)
 
 vim.keymap.set("n", "<leader>git", function()
@@ -75,18 +80,14 @@ vim.keymap.set("n", "<leader>git", function()
       return
     end
 
-    -- Abre um terminal em um novo split vertical
     vim.cmd("vnew")
     vim.cmd("terminal")
     vim.api.nvim_win_set_width(0, 80)
 
-    -- Pega o ID do terminal
     local term_chan = vim.b.terminal_job_id
 
-    -- Muda para o diretório informado
     vim.fn.chansend(term_chan, "cd " .. dir .. "\r\n")
 
-    -- Roda o comando git
     vim.fn.chansend(term_chan, "git add .\r\ngit commit -m .\r\ngit push origin main\r\n")
   end)
 end)

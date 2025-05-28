@@ -1,57 +1,47 @@
-return {
+return{
   {
-    "neovim/nvim-lspconfig",
+    "mason-org/mason.nvim",
     dependencies = {
-      "saghen/blink.cmp",
-      {
-        "folke/lazydev.nvim",
-        ft = "lua", -- only load on lua files
-        opts = {
-          library = {
-            -- See the configuration section for more details
-            -- Load luvit types when the `vim.uv` word is found
-            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-          },
+      "mason-org/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig"
+    },
+    opts = {
+      servers = {
+        lua_ls = {
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = {"vim", "require", "opts"}
+              },
+            },
+          }
         },
+        ts_ls = {},
+        eslint = {},
+        pyright = {},
+        clangd = {},
+        tailwindcss = {},
+        html = {}
       },
     },
-    config = function()
-      local lspconfig = require("lspconfig")
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
+    config = function(_, opts)
+      require("mason").setup()
 
-      -- Lua LS setup
-      lspconfig.lua_ls.setup {
-        capabilities = capabilities,
-      }
-
-      -- JS/TS LS setup
-      lspconfig.tsserver.setup {
-        capabilities = capabilities,
-        filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
-      }
-
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('my.lsp', {}),
-
-        callback = function(args)
-          local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-          if client:supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-          end
-
-          if not client:supports_method('textDocument/willSaveWaitUntil')
-              and client:supports_method('textDocument/formatting') then
-            vim.api.nvim_create_autocmd('BufWritePre', {
-
-              group = vim.api.nvim_create_augroup('my.lsp', { clear = false }),
-              buffer = args.buf,
-              callback = function()
-                vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
-              end,
-            })
-          end
-        end,
+      require("mason-lspconfig").setup({
+        ensure_installed = {"lua_ls"}
       })
+
+      vim.diagnostic.config({
+        virtual_text = true,
+        underline = true,
+      })
+
+      for server, config in pairs(opts.servers) do
+       vim.lsp.config(server,config)
+       vim.lsp.enable(server)
+      end
+
+      vim.lsp.enable("lua_ls")
     end
-  }
+  },
 }
