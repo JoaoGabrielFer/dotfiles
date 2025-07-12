@@ -1,3 +1,4 @@
+--bootstrap do lazyvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -10,13 +11,12 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
 require("config.lazy")
 require("config.remap")
 require("scripts.floaterminal")
-require 'nvim-treesitter.install'.compilers = { "gcc" }
+require 'nvim-treesitter.install'.compilers = { "clang" }
 require("luasnip.loaders.from_vscode").lazy_load()
-
-vim.o.shell = "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
 
 vim.opt.completeopt = { "menuone", "noselect" }
 
@@ -43,23 +43,25 @@ require("catppuccin").setup({
   },
   color_overrides = {
     mocha = {
-      text = "#F4CDE9",
-      subtext1 = "#DEBAD4",
-      subtext0 = "#C8A6BE",
-      overlay2 = "#B293A8",
-      overlay1 = "#9C7F92",
-      overlay0 = "#866C7D",
-      surface2 = "#705867",
-      surface1 = "#5A4551",
-      surface0 = "#44313B",
-
-      base = "#352939",
-      mantle = "#211924",
-      crust = "#1a1016",
+      -- text = "#F4CDE9",
+      subtext1 = "#333377",
+      -- subtext0 = "#C8A6BE",
+      -- overlay2 = "#B293A8",
+      -- overlay1 = "#9C7F92",
+      -- overlay0 = "#866C7D",
+      -- surface2 = "#705867",
+      surface1 = "#9999bb",
+      -- surface0 = "#44313B",
+      --
+      -- base = "#352939",
+      -- mantle = "#211924",
+      -- crust = "#1a1016",
     },
   },
 })
-vim.cmd.colorscheme("catppuccin") -- or "gruvbox"
+vim.cmd.colorscheme("catppuccin") -- colorscheme
+vim.api.nvim_set_hl(0, "Normal", {bg = "none"}) --background transparente
+vim.api.nvim_set_hl(0, "NormalFloat", {bg = "none"})
 
 vim.api.nvim_create_autocmd("TermOpen", {
   group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
