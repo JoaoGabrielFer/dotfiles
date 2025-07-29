@@ -12,6 +12,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.opt.shell = 'pwsh.exe'
+
 require("config.lazy")
 require("config.remap")
 require("scripts.floaterminal")
@@ -50,7 +52,7 @@ require("catppuccin").setup({
       -- overlay1 = "#9C7F92",
       -- overlay0 = "#866C7D",
       -- surface2 = "#705867",
-      surface1 = "#9999bb",
+      -- surface1 = "#9999bb",
       -- surface0 = "#44313B",
       --
       -- base = "#352939",
